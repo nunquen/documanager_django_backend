@@ -21,6 +21,7 @@ from documanager.settings import MEDIA_URL, MEDIA_ROOT
 from documanager.views.v1.document import create_single_revision
 from documanager.views.v1.document import single_document
 from documanager.views.v1.document import revision_list
+from documanager.views.v1.revision import single_revision
 from documanager.views.v1.user import document_list
 from documanager.views.v1.user import user_list
 from documanager.views.v1.user import create_single_document
@@ -35,7 +36,8 @@ urlpatterns = [
     path("v1/user/<int:id>/document", create_single_document),
     path("v1/document/<int:id>", single_document),
     path("v1/document/<int:id>/revisions", revision_list),
-    path("v1/document/<int:id>/revision", create_single_revision)
+    path("v1/document/<int:id>/revision", create_single_revision),
+    path("v1/revision/<int:id>", single_revision),
 ]
 
 """ To see response on json format -> /users/1?format=json """
