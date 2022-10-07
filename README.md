@@ -22,8 +22,8 @@ python manage.py runserver
 # About this project
 ## To access admin panel
 Open http://127.0.0.1:8000/admin/ on a browser
-Django superuser: admin
-Django password: @dm!n.123
+- Django superuser: admin
+- Django password: @dm!n.123
 
 ## Users
 3 default users comes
@@ -68,5 +68,5 @@ python manage.py test --pattern="*_test.py" documanager\all_tests
 
 ## Known Bugs
 Documents and revisions can't be updated nor deleted
-  Django is not allowing to deal with PUT and DELETE http requests.
+* Django is not allowing to deal with PUT and DELETE http requests.
 
