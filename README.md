@@ -2,9 +2,10 @@
 A rest api server made in Django 4 by Saul Maldonado
 ## How to build the environment
 1. You must need python +3.8 installed in your machine
-2. Create a virtual environment
+2. Create and activate a virtual environment
 ```bash
 python3 -m venv /path/to/new/virtual/environment
+venv\\Scripts\\activate.bat (windows)
 ```
 3. Install required packages
 ```bash
