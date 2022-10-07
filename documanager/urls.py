@@ -27,7 +27,7 @@ from documanager.views.v1.user import create_single_document
 from documanager.views.v1.user import single_user
 
 urlpatterns = [
-    path("v1/admin/", admin.site.urls),
+    path("admin/", admin.site.urls),
     path("v1/users/", user_list),
     path("v1/user/", single_user),
     path("v1/user/<int:id>", single_user),
