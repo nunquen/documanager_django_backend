@@ -16,7 +16,8 @@ class DocumentSerializer(serializers.ModelSerializer):
             "url_s",
             "file_uploaded_b",
             "created_at_dt",
-            "modified_at_dt"
+            "modified_at_dt",
+            "revisions_i",
         ]
         ordering = ["name_s"]
 

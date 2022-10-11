@@ -28,12 +28,13 @@ class Document(models.Model):
         blank=True,
         null=True
     )
+    revisions_i = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         """ On save, update timestamp """
         if self.id:
             self.modified_at_dt = timezone.now()
-     
+
         return super(Document, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -76,7 +77,12 @@ class Revision(models.Model):
         user = doc.user
         
         self.local_full_path_s = f"/home/documanager/files/{user.id}/{self.document.id}/{self.number_i}_{doc.file_name_s}"
- 
+
+        """ Updating document revisions """
+        """" TODO: remove this update and create a query for documents to retrieve count(revision)"""
+        self.document.revisions_i += 1
+        self.document.save()
+        
         return super(Revision, self).save(*args, **kwargs)
 
     def __str__(self):

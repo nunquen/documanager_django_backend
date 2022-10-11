@@ -40,7 +40,6 @@ def create_single_revision(request, id, format=None):
 
     if request.method == "POST":
         request.data.update({"document_id": id})
-        print("**** 1")
         serializer = RevisionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(document=document)
