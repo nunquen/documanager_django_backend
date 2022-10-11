@@ -36,6 +36,7 @@ class RevisionSerializer(serializers.ModelSerializer):
             "file_name_s",
             "file_type_s",
             "local_full_path_s",
+            "file_uploaded_b",
             "created_at_dt",
             "modified_at_dt"
         ]
