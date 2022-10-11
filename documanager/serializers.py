@@ -19,7 +19,7 @@ class DocumentSerializer(serializers.ModelSerializer):
             "modified_at_dt",
             "revisions_i",
         ]
-        ordering = ["name_s"]
+        ordering = ["revisions_i"]
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

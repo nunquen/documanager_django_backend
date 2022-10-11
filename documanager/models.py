@@ -66,12 +66,12 @@ class Revision(models.Model):
         """ On save, update timestamp """
         if self.id:
             self.modified_at_dt = timezone.now()
-
-        try:
-            latest_revision = Revision.objects.filter(document_id=self.document.id).last()
-            self.number_i = latest_revision.number_i + 1
-        except Exception as e:
-             self.number_i = 1
+        else:
+            try:
+                latest_revision = Revision.objects.filter(document_id=self.document.id).last()
+                self.number_i = latest_revision.number_i + 1
+            except Exception as e:
+                self.number_i = 1
 
         doc = Document.objects.filter(id=self.document.id).first()
         user = doc.user
