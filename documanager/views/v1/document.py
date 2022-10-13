@@ -39,6 +39,7 @@ def create_single_revision(request, id, format=None):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "POST":
+        request.data._mutable = True
         request.data.update({"document_id": id})
         serializer = RevisionSerializer(data=request.data)
         if serializer.is_valid():

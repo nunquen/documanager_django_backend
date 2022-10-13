@@ -5,6 +5,7 @@ from documanager.models import User
 from documanager.models import Document
 from documanager.serializers import UserSerializer
 from documanager.serializers import DocumentSerializer
+from django.db.utils import IntegrityError
 
 @api_view(["GET"])
 def user_list(request, format=None):
@@ -65,10 +66,22 @@ def create_single_document(request, id, format=None):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "POST":
+        request.data._mutable = True
         request.data.update({"user_id": id})
         serializer = DocumentSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=user)
+            try:
+                serializer.save(user=user)
+            except IntegrityError as ie:
+                status_code = 450
+                error_msg = "duplicated url"
+
+                if "documanager_document.file_uploaded_b" in str(ie):
+                    status_code = 451
+                    error_msg = "duplicated file name"
+                
+                return Response({"error": error_msg}, status=status_code )
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
