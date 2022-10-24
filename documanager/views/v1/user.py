@@ -1,21 +1,27 @@
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django.db.utils import IntegrityError
+from django.http.request import QueryDict
 from documanager.models import User
 from documanager.models import Document
 from documanager.serializers import UserSerializer
 from documanager.serializers import DocumentSerializer
-from django.db.utils import IntegrityError
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.request import Request
+from rest_framework.response import Response
+from typing import Dict
+
 
 @api_view(["GET"])
-def user_list(request, format=None):
+def user_list(request:Request)->Response:
+    """ Retrieve all users """
     if request.method == "GET": 
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
 
 @api_view(["GET", "POST", "PUT", "DELETE"])
-def single_user(request, id=None, format=None):
+def single_user(request:Request, id:int)-> Response:
+    """ Retrieve a sigle user by id """
     try:
         user = User.objects.get(pk=id)
     except User.DoesNotExist:
@@ -47,7 +53,8 @@ def single_user(request, id=None, format=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(["GET"])
-def document_list(request, id, format=None):
+def document_list(request:Request, id:int)-> Response:
+    """ Retrieve all documents by user id """
     try:
         user = User.objects.get(pk=id)
     except User.DoesNotExist:
@@ -59,14 +66,18 @@ def document_list(request, id, format=None):
         return Response(serializer.data)
 
 @api_view(["POST"])
-def create_single_document(request, id, format=None):
+def create_single_document(request:Request, id:int)-> Response:
+    """ Create a document for a User by user id """
     try:
         user = User.objects.get(pk=id)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "POST":
-        request.data._mutable = True
+        """ In case we don't receive a dict object """
+        if isinstance(request.data, QueryDict):
+            request.data._mutable = True
+
         request.data.update({"user_id": id})
         serializer = DocumentSerializer(data=request.data)
         if serializer.is_valid():

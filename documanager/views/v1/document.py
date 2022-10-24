@@ -1,4 +1,5 @@
 import os
+from django.http.request import QueryDict
 from documanager.settings import MEDIA_ROOT, MEDIA_FOLDER
 from documanager.models import Document
 from documanager.models import Revision
@@ -6,10 +7,11 @@ from documanager.serializers import DocumentSerializer
 from documanager.serializers import RevisionSerializer
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 @api_view(["GET", "PUT"])
-def single_document(request, id, format=None):
+def single_document(request:Request, id:int)->Response:
     try:
         document = Document.objects.get(pk=id)
     except Document.DoesNotExist:
@@ -32,14 +34,17 @@ def single_document(request, id, format=None):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(["POST"])
-def create_single_revision(request, id, format=None):
+def create_single_revision(request:Request, id:int)->Response:
     try:
         document = Document.objects.get(pk=id)
     except Document.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "POST":
-        request.data._mutable = True
+        """ In case we don't receive a dict object """
+        if isinstance(request.data, QueryDict):
+            request.data._mutable = True
+
         request.data.update({"document_id": id})
         serializer = RevisionSerializer(data=request.data)
         if serializer.is_valid():
@@ -49,7 +54,7 @@ def create_single_revision(request, id, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["GET"])
-def revision_list(request, id, format=None):
+def revision_list(request:Request, id:int)->Response:
     try:
         document = Document.objects.get(pk=id)
     except Document.DoesNotExist:
