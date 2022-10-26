@@ -12,17 +12,22 @@ venv\\Scripts\\activate.bat (windows)
 pip install -r requirements.txt
 ```
 
-
 ## How to run the application
-1. Run the applications
+1. Run the application
 ```bash
 python manage.py runserver
+```
+
+## Run it on Docker
+1. Run and build the application (you need Docker installed in your machine)
+```bash
+docker-compose up -d --build
 ```
 
 # About this project
 ## To access admin panel
 Open http://127.0.0.1:8000/admin/ on a browser
-- Django superuser: admin
+- Django superSaul.123.!user: admin
 - Django password: @dm!n.123
 
 ## Users
@@ -69,4 +74,3 @@ python manage.py test --pattern="*_test.py" documanager\all_tests
 ## Known Bugs
 Documents and revisions can't be updated nor deleted
 * Django is not allowing to deal with PUT and DELETE http requests.
-
