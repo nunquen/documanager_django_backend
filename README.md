@@ -28,7 +28,7 @@ docker-compose up -d --build
 ## To access admin panel
 Open http://127.0.0.1:8000/admin/ on a browser
 - Django superSaul.123.!user: admin
-- Django password: @dm!n.123
+- Django password: admin.123
 
 ## Users
 3 default users comes
